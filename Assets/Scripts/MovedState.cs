@@ -1,23 +1,36 @@
 using UnityEngine;
 public class MovedState : BaseState
 {
-
-    public MovedState(Tile tile, IStateSwitcher stateSwitcher) : base(tile, stateSwitcher)
+    private Container _container;
+    private Tile _childTile;
+    public MovedState(Tile tile, IStateSwitcher stateSwitcher, Container container,Tile childTile ) : base(tile, stateSwitcher)
     {
+        _container = container;
+        _childTile = childTile;
     }
 
     public override void EnterState()
     {
-        Debug.Log("Entered move state");
+        _tile.OnTileClicked += OnClick;
+        if(_childTile != null)
+            _childTile.SetCover(false);
+        _container.AssignPosition(_tile);
+        _container.GainTileData(_tile);
     }
 
     public override void ExitState()
     {
-        Debug.Log("Exited move state");
+        
     }
 
     public override void Perform()
     {
-        _tile.SetParent();
+        Debug.Log("Tile moved");
     }
+
+    private void OnClick()
+    {
+        _tile.OnTileClicked -= OnClick;
+    }
+    
 }

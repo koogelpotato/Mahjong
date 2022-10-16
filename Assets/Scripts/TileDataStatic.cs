@@ -12,19 +12,14 @@ public class TileDataStatic : ScriptableObject
     [SerializeField]
     private Color color;
     [SerializeField]
-    private Transform tileParent;
-    [SerializeField]
-    private bool isClosed;
-    [SerializeField]
-    private bool isDependent;
+    private bool isCovered = false;
+    
+    
+    
     public Sprite Sprite { get => sprite; }
     public TileType TileType { get => tileType; }
     public Color Color { get => color; }
-    public Transform Parent { get => tileParent; }
-    public bool IsClosed { get => isClosed; }
-    public bool IsDependent { get => isDependent; }
-
-
+    public bool IsCovered { get => isCovered; }
 }
 public enum TileType
 {

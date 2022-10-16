@@ -6,10 +6,10 @@ using UnityEngine;
 public class TileDataDynamic
 {
     public Color color;
-    public bool isClosed;
+    public bool isCovered;
     public TileDataDynamic(TileDataStatic data)
     {
         color = data.Color;
-        isClosed = data.IsClosed;
+        isCovered = data.IsCovered;
     }
 }

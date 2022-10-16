@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class StateMachine : MonoBehaviour, IStateSwitcher
+public class StateMachine : MonoBehaviour, IStateSwitcher, IReturnCurrentState
 {
     [SerializeField]
     private Tile _tile;
+    [SerializeField]
+    private Container _container;
+    [SerializeField]
+    private Tile _childTile;
 
     private BaseState _currentState;
     private List<BaseState> _allStates;
@@ -18,12 +22,12 @@ public class StateMachine : MonoBehaviour, IStateSwitcher
     {
         _allStates = new List<BaseState>()
         {
-            new ClosedState(_tile, this),
+            new ClosedState(_tile, this, _childTile),
             new OpenState(_tile,this),
-            new MovedState(_tile, this)
+            new MovedState(_tile, this, _container,_childTile)
         };
         _currentState = _allStates[0];
-        
+        _currentState.EnterState();
     }
     public void Perform()
     {
@@ -34,6 +38,12 @@ public class StateMachine : MonoBehaviour, IStateSwitcher
         var state = _allStates.FirstOrDefault(s => s is T);
         _currentState.ExitState();
         state.EnterState();
+        state.Perform();
         _currentState = state;
+    }
+
+    public BaseState ReturnCurrentState()
+    {
+        return _currentState;
     }
 }

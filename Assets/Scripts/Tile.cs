@@ -12,13 +12,16 @@ public class Tile : MonoBehaviour, IClickable
     [SerializeField]
     private SpriteRenderer _spriteRenderer;
     [SerializeField]
-    private Tile _parentTile = null;
+    private Tile _childTile = null;
+    [SerializeField]
+    private Container _container;
     
 
     
     public Sprite sprite => _staticData.Sprite;
     public Color Color => _dynamicData.color;
-    public bool IsClosed => _dynamicData.isClosed;
+    public TileType type => _staticData.TileType;
+    public bool isCovered => _dynamicData.isCovered;
 
     public event Action OnTileClicked;
     private void Awake()
@@ -31,24 +34,28 @@ public class Tile : MonoBehaviour, IClickable
     {
         
     }
-    public bool IsDependent()
+    public bool SetCover(bool IsCovered)
     {
-        if(_parentTile == null)
-            return false;
-        return true;
+            if (IsCovered)
+            {
+                _dynamicData.isCovered = true;
+                return true;
+            }
+            else
+            {
+                _dynamicData.isCovered = false;
+                return false;
+            }   
     }
-    public void OpenTile(bool boolean)
-    {
-        _dynamicData.isClosed = boolean;
-    }
+    
     public void SetColor(Color color)
     {
          _dynamicData.color = color;
          _spriteRenderer.color = _dynamicData.color;
     }
-    public void SetParent()
+    public void SetParent(GameObject parentObject)
     {
-        transform.parent = _staticData.Parent;
+        transform.SetParent(parentObject.transform);
     }
     public void DestroyTile()
     {

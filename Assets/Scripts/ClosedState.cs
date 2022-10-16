@@ -4,13 +4,20 @@ using UnityEngine;
 
 public class ClosedState : BaseState
 {
-    public ClosedState(Tile tile, IStateSwitcher stateSwitcher) : base(tile, stateSwitcher)
+    private Tile _childTile;
+    public ClosedState(Tile tile, IStateSwitcher stateSwitcher,Tile childTile) : base(tile, stateSwitcher)
     {
+        _childTile = childTile;
     }
 
     public override void EnterState()
     {
         _tile.OnTileClicked += OnClick;
+        if(_childTile != null)
+        {
+            _childTile.SetCover(true);
+        }
+        
     }
 
     public override void ExitState()
@@ -19,9 +26,17 @@ public class ClosedState : BaseState
     }
     private void OnClick()
     {
-        if (!_tile.IsDependent())
+        if (!_tile.isCovered)
+        {
             _stateSwitcher.SwitchState<OpenState>();
-        _stateSwitcher.SwitchState<ClosedState>();
+        }
+        else
+        {
+            _stateSwitcher.SwitchState<ClosedState>();
+        }
+
+        
+        
     }
     public override void Perform()
     {

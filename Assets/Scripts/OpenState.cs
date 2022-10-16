@@ -11,6 +11,7 @@ public class OpenState : BaseState
     public override void EnterState()
     {
         _tile.OnTileClicked += OnClick;
+
     }
 
     public override void ExitState()

@@ -15,5 +15,4 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 14e62563269c11443b9c936be93b95f4, type: 3}
   tileType: 0
   color: {r: 0, g: 0, b: 0, a: 0}
-  tilePosition: {x: 0, y: 0}
-  isClosed: 1
+  isCovered: 0
